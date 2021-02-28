@@ -1,0 +1,31 @@
+{% extends 'auctions/layout.html' %}
+
+{% block title %}
+{{ cat }}
+{% endblock %}
+
+{% block body %}
+
+    {% for entry in listings %}
+
+        <hr>
+        <table style="background-color:#ffe6ff; width: 100%;">
+            <tr>
+                <td>
+                    <img style="margin-left:  30px;" src="{{ entry.url }}"
+                         alt="image could not load" width="150" height="200">
+                </td>
+                <td>
+                    <p style="margin-right: 150px;"><b>{{ entry.title }}</b></p><br>
+                    <p><b>Price: ${{ entry.bid }}</b></p><br>
+                    <p>{{ entry.description }}</p>
+                </td>
+            </tr>
+        </table>
+    {% empty %}
+        <strong>NO LISTINGS</strong>
+
+    {% endfor %}
+<br>
+
+{% endblock %}

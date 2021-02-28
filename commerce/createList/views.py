@@ -1,17 +1,21 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from django import forms
+from django.urls import reverse
+from django.http import HttpResponseRedirect
 from .models import  Listing, Category
 # Create your views here.
 
 class createListingForm(forms.Form):
-    cat = Category.objects.all()
-    title = forms.CharField(label="Title",max_length=36)
-    description = forms.CharField(label="Description",
+    newTitle = forms.CharField(label="Title",max_length=36)
+    newDesc = forms.CharField(label="Description",
                 widget=forms.Textarea(attrs={'style': 'resize:none'}))
-    bid = forms.FloatField()
-    url = forms.CharField(max_length=250)
-    category = forms.ChoiceField(choices=cat)
+    newBid = forms.FloatField(label="Bid",)
+    newUrl = forms.CharField(max_length=250,label="URL",)
+    # forms.modelChoiceField is used for select object options
+    newCat = forms.ModelChoiceField(label="Category",queryset=Category.objects.all(),
+                                    to_field_name="name",
+                                    initial=Category.objects.get(code="NONE"))
 
 
 def createListing(request):
@@ -19,16 +23,16 @@ def createListing(request):
         form = createListingForm(request.POST)
         if form.is_valid():
 
-            newBid = form.cleaned_data["bid"]
-            newUrl = form.cleaned_data["url"]
-            newTitle = form.cleaned_data["title"]
-            newDesc = form.cleaned_data["description"]
-            newCat = form.cleaned_data["category"]
+            newBid = form.cleaned_data["newBid"]
+            newUrl = form.cleaned_data["newUrl"]
+            newTitle = form.cleaned_data["newTitle"]
+            newDesc = form.cleaned_data["newDesc"]
+            newCat = form.cleaned_data["newCat"]
 
-            Listing.objects.create(title=newTitle,description=newDesc,bid=newBid,url=newUrl
-                                   ,code=Category.objects.get(newCat)
-                                )
-            return HttpResponseRedirect(reverse("index"))
+#saves new listing
+            Listing.objects.create(title=newTitle,description=newDesc,bid=newBid,url=newUrl,
+                                   category_name=newCat)
+            return HttpResponseRedirect(reverse("auctions:index"))
 
 
     else:

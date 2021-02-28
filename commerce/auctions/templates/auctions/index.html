@@ -2,6 +2,28 @@
 
 {% block body %}
     <h2>Active Listings</h2>
+{% for entry in lists %}
+<hr>
+<!---->
 
-    TODO
+    <div style="width: 100%; display: table; background-color:#ffe6ff;">
+        <div style="display: table-row; padding-top: 20px;">
+
+            <div style="width: 350px; display: table-cell;">
+                <img style="margin-left:  30px;" src="{{ entry.url }}"
+                alt="image could not load" width="300" height="200">
+            </div>
+
+                <div style="display: table-cell; padding-top: 20px;padding-left: 80px;">
+                    <p><b>{{ entry.title }}</b></p><br>
+                    <p><b>Price: ${{ entry.bid }}</b></p><br>
+                    <p>{{ entry.description }}</p>
+                </div>
+        </div>
+    </div>
+
+{% empty %}
+    <strong>NO LISTINGS</strong>
+
+{% endfor %}
 {% endblock %}
