@@ -2,7 +2,7 @@
 
 {% block body %}
 
-<form method="post" action="{% url 'creation:create' %}">
+<form method="post" action="{% url 'creation:create' %}{{ user.id }}">
 {% csrf_token %}
 {{ form }}
 <input type="submit">

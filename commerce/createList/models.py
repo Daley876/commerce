@@ -1,4 +1,5 @@
 from django.db import models
+from auctions.models import User
 # Create your models here.
 
 class Category (models.Model):
@@ -12,8 +13,11 @@ class Listing(models.Model):
     description = models.TextField()
     bid = models.FloatField()
     url = models.TextField(max_length=250,blank=True)
-    category_name = models.ForeignKey(Category, on_delete=models.CASCADE,default="XXXX",related_name="cats")
+    category_name = models.ForeignKey(Category, on_delete=models.CASCADE,default="NONE",related_name="cats")
+    userID = models.ForeignKey(User, on_delete=models.CASCADE,related_name="createUser",default=1)
+    createDateTime = models.CharField(max_length=60,default="NONE")
+
+
     def __str__(self):
-        return f"Title:{self.title}, Desc:{self.description}, Bid:{self.bid}, URL:{self.url}," \
-               f"Category:{self.category_name}"
+        return f"{self.id}"
 

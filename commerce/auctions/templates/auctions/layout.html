@@ -24,10 +24,10 @@
                 <a class="nav-link" href="{% url 'categories:index' %}">Categories</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'auctions:index' %}">Watchlist</a>
+                <a class="nav-link" href="{% url 'watchlist:index' %}{{ user.id }}">Watchlist</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'creation:create' %}">Create Listings</a>
+                <a class="nav-link" href="{% url 'creation:create'%}{{ user.id }}">Create Listings</a>
             </li>
             {% if user.is_authenticated %}
                 <li class="nav-item">

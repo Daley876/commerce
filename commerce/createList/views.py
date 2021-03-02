@@ -3,6 +3,8 @@ from django.contrib.auth import authenticate, login, logout
 from django import forms
 from django.urls import reverse
 from django.http import HttpResponseRedirect
+from datetime import datetime
+from auctions.models import User
 from .models import  Listing, Category
 # Create your views here.
 
@@ -18,7 +20,7 @@ class createListingForm(forms.Form):
                                     initial=Category.objects.get(code="NONE"))
 
 
-def createListing(request):
+def createListing(request,idNo):
     if request.method == "POST":
         form = createListingForm(request.POST)
         if form.is_valid():
@@ -29,14 +31,19 @@ def createListing(request):
             newDesc = form.cleaned_data["newDesc"]
             newCat = form.cleaned_data["newCat"]
 
-#saves new listing
+            now = datetime.now() # get system date
+            createDate = now.strftime("%B %d, %Y %I:%M %p") #formats date to string and saves
+
+# when retrieving a single row, use get. this returns an object as opposed to a result set
+            UserIdNum = User.objects.get(id=idNo)
+
+            #saves new listing
             Listing.objects.create(title=newTitle,description=newDesc,bid=newBid,url=newUrl,
-                                   category_name=newCat)
+                                   category_name=newCat,createDateTime=createDate,userID=UserIdNum)
             return HttpResponseRedirect(reverse("auctions:index"))
 
 
     else:
-        return render(request, "createList/createListing.html", {
-            "user":request.user, "form":createListingForm
+        return render(request, "createList/createListing.html", {"form":createListingForm
         })
 
