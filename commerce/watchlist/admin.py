@@ -4,6 +4,6 @@ from .models import watcherList
 
 
 class watcherAdmin(admin.ModelAdmin):
-    list_display = ("id","listID","userID")
+    list_display = ("id","listID","addedBy","watchedBy")
 
 admin.site.register(watcherList,watcherAdmin)

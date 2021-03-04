@@ -12,12 +12,14 @@
         <table style="background-color:#ffe6ff; width: 100%;">
             <tr>
                 <td>
-                    <img style="margin-left:  30px;" src="{{ entry.url }}"
-                         alt="image could not load" width="150" height="200">
+                    <a href="{% url 'listings:index'%}{{ entry.id }}">
+                    <img style="margin-left:  30px; margin-left:  30px; width: 300px; height:200px;"
+                         src="{{ entry.url }}"
+                         alt="image could not load"></a>
                 </td>
                 <td>
                     <p style="margin-right: 150px;"><b>{{ entry.title }}</b></p><br>
-                    <p><b>Price: ${{ entry.bid }}</b></p><br>
+                    <p><b>Price: ${{ entry.bid | floatformat:2 }}</b></p><br>
                     <p>{{ entry.description }}</p>
                 </td>
             </tr>

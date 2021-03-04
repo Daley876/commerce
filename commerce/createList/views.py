@@ -6,20 +6,21 @@ from django.http import HttpResponseRedirect
 from datetime import datetime
 from auctions.models import User
 from .models import  Listing, Category
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 class createListingForm(forms.Form):
     newTitle = forms.CharField(label="Title",max_length=36)
     newDesc = forms.CharField(label="Description",
                 widget=forms.Textarea(attrs={'style': 'resize:none'}))
-    newBid = forms.FloatField(label="Bid",)
-    newUrl = forms.CharField(max_length=250,label="URL",)
+    newBid = forms.FloatField(label="Bid",widget=forms.CharField.widget)
+    newUrl = forms.CharField(max_length=250,label="URL",required=False)
     # forms.modelChoiceField is used for select object options
     newCat = forms.ModelChoiceField(label="Category",queryset=Category.objects.all(),
                                     to_field_name="name",
                                     initial=Category.objects.get(code="NONE"))
 
-
+@login_required(login_url='/admin')
 def createListing(request,idNo):
     if request.method == "POST":
         form = createListingForm(request.POST)

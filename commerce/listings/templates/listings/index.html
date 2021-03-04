@@ -1,0 +1,61 @@
+{% extends 'auctions/layout.html' %}
+
+
+{% block body %}
+<strong style="font-size: 40px;">Listing: {{ posting.title }}</strong><br>
+
+
+    {% if items %}
+        <form action="{% url 'listings:del'%}"  method="post" >
+            {% csrf_token %}
+            <input type="hidden" value="{{ posting.id }}" name="listingID">
+            <input style="background-color: darkslategray; color: #ffe6ff" type="submit"
+                   value="Remove from watchlist">
+        </form>
+        {% else %}
+    <form action="{% url 'listings:add'%}" method="POST" >
+        {% csrf_token %}
+        <input type="hidden" value="{{ posting.id }}" name="listingID">
+        <input style="background-color: darkslategray; color: #ffe6ff" type="submit"
+               value="Add To Watchlist">
+    </form>
+    {% endif %}
+
+
+
+    <div style="width: 100%; background-color:#ffe6ff;">
+        <div style="padding-top: 20px;">
+
+            <div style="width: 305px;">
+                <!--brings me to listings page with Listing ID#-->
+                <a href="{% url 'listings:index'%}{{ posting.id }}">
+                    <img style="margin-left:  30px; width: 300px; height:200px;" src="{{ posting.url }}"
+                         alt="image could not load"></a>
+            </div><br>
+
+            <div>
+                <p style="margin-left:  30px;" class="text-muted">{{ posting.description }}</p>
+            </div><br>
+            <div>  <!-- floatformat:2 sets the decimal places for the value given value-->
+                <p style="font-size: 25px;margin-left:  30px;"><b>${{ posting.bid|floatformat:2}}</b></p>
+        </div><br>
+            <div>
+                <button style="padding: 5px;
+                background-color: cornflowerblue; color: #ffe6ff;margin-left: 30px;">
+                    Place Bid</button>
+        </div> <br>
+            <div>
+                <strong style="margin-left:  30px; font-size: 20px;">Details</strong> </div>
+                <ul>
+                    <li> Listed By: {{ posting.userID.username }}</li>
+                    <li>  Category: {{ posting.category_name }}</li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+{% endblock %}

@@ -10,13 +10,14 @@
             <div style="display: table-row; padding-top: 20px;">
 
                 <div style="width: 350px; display: table-cell;">
+                    <a href="{% url 'listings:index'%}{{ entry.id }}">
                     <img style="margin-left:  30px;" src="{{ entry.url }}"
-                         alt="image could not load" width="300" height="200">
+                         alt="image could not load" width="300" height="200"></a>
                 </div>
 
                 <div style="display: table-cell; padding-top: 20px;padding-left: 80px;">
                     <p><b>{{ entry.title }}</b></p><br>
-                    <p><b>Price: ${{ entry.bid }}</b></p><br>
+                    <p><b>Price: ${{ entry.bid | floatformat:2 }}</b></p><br>
                     <p>{{ entry.description }}</p>
                 </div>
             </div>

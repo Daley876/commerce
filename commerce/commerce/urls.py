@@ -21,5 +21,6 @@ urlpatterns = [
     path("", include("auctions.urls")),
     path("create/", include("createList.urls")),
     path("categories/", include("categories.urls")),
-    path("watchlist/", include("watchlist.urls"))
+    path("watchlist/", include("watchlist.urls")),
+    path("listings/", include("listings.urls"))
 ]
