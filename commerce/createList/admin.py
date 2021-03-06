@@ -5,7 +5,8 @@ from .models import Listing,Category
 class CatAdmin(admin.ModelAdmin):
     list_display = ("code","name")
 class ListingAdmin(admin.ModelAdmin):
-    list_display = ("id","title","description","bid","url","category_name","userID",
+    list_display = ("id","title","description","bid","startingBid","currBidBy",
+                    "url","category_name","userID",
                     "createDateTime") #  comma at the end is mandatory
 
 admin.site.register(Listing,ListingAdmin)

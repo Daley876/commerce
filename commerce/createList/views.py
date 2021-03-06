@@ -39,7 +39,8 @@ def createListing(request,idNo):
             UserIdNum = User.objects.get(id=idNo)
 
             #saves new listing
-            Listing.objects.create(title=newTitle,description=newDesc,bid=newBid,url=newUrl,
+            Listing.objects.create(title=newTitle,description=newDesc,bid=newBid,
+                                   startingBid=newBid,url=newUrl,
                                    category_name=newCat,createDateTime=createDate,userID=UserIdNum)
             return HttpResponseRedirect(reverse("auctions:index"))
 

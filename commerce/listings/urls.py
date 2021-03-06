@@ -5,10 +5,17 @@ from . import views
 app_name = "listings"
 urlpatterns = [
     path("", views.listingsView, name="index"),
-    path("<int:idNo>", views.listingsView, name="index"),
+    path('<int:idNo>', views.listingsView, name="index"),
+
     path("", views.addToWatchList, name="add"),
     path("add_to_list",views.addToWatchList,name="add"),
-    path("", views.addToWatchList, name="del"),
-    path("remove_to_list",views.DelFromWatchList,name="del")
 
+    path("", views.DelFromWatchList, name="del"),
+    path("remove_to_list",views.DelFromWatchList,name="del"),
+
+    path("", views.createBid, name="bid"),
+    path("submit_bid",views.createBid,name="bid"),
+
+    path("", views.closeListing, name="close"),
+    path("close_listing",views.closeListing,name="close")
 ]

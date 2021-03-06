@@ -2,28 +2,34 @@
 
 
 {% block body %}
-<strong style="font-size: 40px;">Listing: {{ posting.title }}</strong><br>
 
+    {% if closedMsg %}
+        <strong>{{ closedMsg }}</strong>
+        {% elif winMsg %}
+        <strong>{{ winMsg }}</strong>
 
-    {% if items %}
-        <form action="{% url 'listings:del'%}"  method="post" >
-            {% csrf_token %}
-            <input type="hidden" value="{{ posting.id }}" name="listingID">
-            <input style="background-color: darkslategray; color: #ffe6ff" type="submit"
-                   value="Remove from watchlist">
-        </form>
+    {% else %}
+        <strong style="font-size: 40px;">Listing: {{ posting.title }}</strong><br>
+
+        <!-- WATCHLIST ACTION BUTTON-->
+        {% if items %}
+            <form action="{% url 'listings:del'%}"  method="post" >
+                {% csrf_token %}
+                <input type="hidden" value="{{ posting.id }}" name="listingIDwatch">
+                <input style="background-color: darkslategray; color: #ffe6ff" type="submit"
+                       value="Remove from watchlist">
+            </form>
         {% else %}
-    <form action="{% url 'listings:add'%}" method="POST" >
-        {% csrf_token %}
-        <input type="hidden" value="{{ posting.id }}" name="listingID">
-        <input style="background-color: darkslategray; color: #ffe6ff" type="submit"
-               value="Add To Watchlist">
-    </form>
-    {% endif %}
+            <form action="{% url 'listings:add'%}" method="POST" >
+                {% csrf_token %}
+                <input type="hidden" value="{{ posting.id }}" name="listingIDwatch">
+                <input style="background-color: darkslategray; color: #ffe6ff" type="submit"
+                       value="Add To Watchlist">
+            </form>
+        {% endif %}
 
 
-
-    <div style="width: 100%; background-color:#ffe6ff;">
+        <!-- START OF LISTING DETAILS-->
         <div style="padding-top: 20px;">
 
             <div style="width: 305px;">
@@ -38,24 +44,54 @@
             </div><br>
             <div>  <!-- floatformat:2 sets the decimal places for the value given value-->
                 <p style="font-size: 25px;margin-left:  30px;"><b>${{ posting.bid|floatformat:2}}</b></p>
-        </div><br>
+            </div>
+            <p>{{ numBids }} {{ bidMsg }}</p> <!-- listing bid messages-->
             <div>
-                <button style="padding: 5px;
-                background-color: cornflowerblue; color: #ffe6ff;margin-left: 30px;">
-                    Place Bid</button>
-        </div> <br>
+
+    <!-- PLACE BID FORM-->
+                <form method="post" action="{% url 'listings:bid' %}">
+                    {% csrf_token %}
+                    <input type="text" name="bidAmt" placeholder="Bid">
+                    <input type="hidden" value="{{ posting.id }}" name="listingID">
+
+                    {% if messages and not method%}
+                        {% for msg in messages %}
+                            {% if msg.tags %}
+                                <script><!-- to use alerts then the script tags must be used-->
+                                alert("{{ msg }}")
+                                </script>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+
+                    <input type="submit" style="padding: 5px;
+                background-color: cornflowerblue; color: #ffe6ff;margin-left: 30px;"
+                           value="Place Bid">
+                </form>
+
+            </div><br>
             <div>
                 <strong style="margin-left:  30px; font-size: 20px;">Details</strong> </div>
-                <ul>
-                    <li> Listed By: {{ posting.userID.username }}</li>
-                    <li>  Category: {{ posting.category_name }}</li>
-                </ul>
-            </div>
-
+            <ul>
+                <li> Listed By: {{ posting.userID.username }}</li>
+                <li>  Category: {{ posting.category_name }}</li>
+            </ul>
         </div>
-    </div>
+        <!-- END OF LISTING DETAILS-->
+
+        <!--CLOSE LISTING ACTIONS   -->
+
+        {% if ownedListing %}
+            <form action="{% url 'listings:close'%}"  method="post" >
+                {% csrf_token %}
+                <input type="hidden" value="{{ posting.id }}" name="postingID">
+                <input style="background-color: red; color: #ffe6ff" type="submit"
+                       value="Close Listing">
+            </form><br>
 
 
+        {% endif %}
 
+    {% endif %}
 
 {% endblock %}
