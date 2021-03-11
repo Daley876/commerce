@@ -26,4 +26,10 @@
     {% empty %}
         <strong>NO LISTINGS</strong>
 {% endfor %}
+
+    <div hidden>
+    {% block notifCount %}
+        {{ watchedItems }}
+    {% endblock %}
+        <div hidden>
 {% endblock %}

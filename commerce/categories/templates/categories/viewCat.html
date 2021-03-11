@@ -29,5 +29,9 @@
 
     {% endfor %}
 <br>
-
+    <div hidden>
+        {% block notifCount %}
+            {{ watchedItemsCounter }}
+        {% endblock %}
+    </div>
 {% endblock %}

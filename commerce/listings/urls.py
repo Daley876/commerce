@@ -7,6 +7,9 @@ urlpatterns = [
     path("", views.listingsView, name="index"),
     path('<int:idNo>', views.listingsView, name="index"),
 
+    path("", views.postComment, name="comm"),
+    path("post_comment",views.postComment,name="comm"),
+
     path("", views.addToWatchList, name="add"),
     path("add_to_list",views.addToWatchList,name="add"),
 

@@ -4,9 +4,17 @@
 
 <form method="post" action="{% url 'creation:create' %}{{ user.id }}">
 {% csrf_token %}
-{{ form }}
-<input type="submit">
+    {{ form.newTitle.label }}{{ form.newTitle }}<br><br>
+    {{ form.newDesc.label }} {{ form.newDesc }}<br><br>
+    {{ form.newUrl.label }}{{ form.newUrl }}<br><br>
+    {{ form.newBid.label }} {{ form.newBid }}<br><br>
+    {{ form.newCat.label }} {{ form.newCat }}<br><br>
+<input style="position: relative; left: 40%;
+             background-color: blue; color: white" value="Create Listing" type="submit">
 </form>
-
-
+    <div hidden>
+        {% block notifCount %}
+            {{ watchedItemsCounter }}
+        {% endblock %}
+    </div>
 {% endblock %}

@@ -25,6 +25,9 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'watchlist:index' %}{{ user.id }}">Watchlist</a>
+                <span style="position: relative;padding: 2px 5px;border-radius: 20%;bottom: 35px;
+         background: darkblue; left: 85px; color: white;" class="counter">
+                    {% block notifCount %}{% endblock %}</span>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'creation:create'%}{{ user.id }}">Create Listings</a>

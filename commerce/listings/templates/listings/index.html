@@ -3,13 +3,13 @@
 
 {% block body %}
 
-    {% if closedMsg %}
+    {% if closedMsg %} <!--  if page loads and listing is closed then it will show message-->
         <strong>{{ closedMsg }}</strong>
         {% elif winMsg %}
         <strong>{{ winMsg }}</strong>
 
-    {% else %}
-        <strong style="font-size: 40px;">Listing: {{ posting.title }}</strong><br>
+    {% else %} <!--  If page loads and listing is open it will show listing details-->
+        <strong style="font-size: 40px;">Listing: {{ posting.title }}</strong><br><br>
 
         <!-- WATCHLIST ACTION BUTTON-->
         {% if items %}
@@ -27,7 +27,7 @@
                        value="Add To Watchlist">
             </form>
         {% endif %}
-
+<br>
 
         <!-- START OF LISTING DETAILS-->
         <div style="padding-top: 20px;">
@@ -64,8 +64,7 @@
                         {% endfor %}
                     {% endif %}
 
-                    <input type="submit" style="padding: 5px;
-                background-color: cornflowerblue; color: #ffe6ff;margin-left: 30px;"
+                    <input type="submit" style="background-color: blue; color: white;margin-left: 30px;"
                            value="Place Bid">
                 </form>
 
@@ -88,10 +87,40 @@
                 <input style="background-color: red; color: #ffe6ff" type="submit"
                        value="Close Listing">
             </form><br>
-
-
         {% endif %}
 
-    {% endif %}
+        <!-- COMMENTS SECTION-->
+        <div class="enterComment" style="color: darkslategray">
+            <form method="POST" action="{% url 'listings:comm'%}" >
+                {% csrf_token %}
+                <input type="hidden" value="{{ posting.id }}" name="postingID">
+                <textarea style="width: 650px; height: 65px; resize: none;" name="userComment"
+                          placeholder="Enter comment here.."></textarea>
+                <input type="submit" style="bottom: 10px; position: relative;
+             background-color: blue; color: white" value="Post Comment">
+            </form>
+        </div>
 
+
+        <div class="commentsBlock" style=" width:90%; background-color: whitesmoke">
+    {% if currComments %}
+    {% for comm in currComments %}
+        <ul>
+            <li style="list-style: none; ">
+                <b>{{comm.commentMade}} </b><br>
+               <p> - {{ comm.commentBy.username }}</p>
+                <p style="position: relative; bottom:40px; left: 60px; margin-left: 10px;"
+                   class="text-muted">{{ comm.datetimeOfComment }}</p>
+            </li><hr>
+        </ul>
+    {% endfor %}
+        {% endif %}
+</div>
+
+    {% endif %}
+    <div hidden>
+    {% block notifCount %}
+        {{ watchedItems }}
+    {% endblock %}
+    </div>
 {% endblock %}

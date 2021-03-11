@@ -1,5 +1,7 @@
 from django.db import models
 from auctions.models import User
+from datetime import datetime
+from django.utils import timezone
 # Create your models here.
 
 class Category (models.Model):
@@ -17,7 +19,7 @@ class Listing(models.Model):
     url = models.TextField(max_length=250,blank=True)
     category_name = models.ForeignKey(Category, on_delete=models.CASCADE,default="NONE",related_name="cats")
     userID = models.ForeignKey(User, on_delete=models.CASCADE,related_name="createUser",default=1)
-    createDateTime = models.CharField(max_length=60,default="NONE")
+    createDateTime = models.DateTimeField()
 
     def __str__(self):
         return f"{self.id}"

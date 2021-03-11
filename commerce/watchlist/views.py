@@ -17,10 +17,17 @@ def watchlistView (request,idNo):
 
         #searches watch list table for users with corresponding ID. retrieves list code
         list_code = watcherList.objects.filter(watchedBy=user_code).values_list("listID")
+        try:
+            watchedItemsCounter = watcherList.objects.filter(watchedBy=user_code).count()
+        except:
+            watchedItemsCounter= 0
+
+
 
     # gets all listings with list_code taken from wacth list table
         return render(request,"watchlist/index.html",{
-            "postings":Listing.objects.filter(id__in=list_code)})
+            "postings":Listing.objects.filter(id__in=list_code),
+            "watchedItems":watchedItemsCounter})
     else:
         return HttpResponseRedirect(reverse("auctions:login",))
 

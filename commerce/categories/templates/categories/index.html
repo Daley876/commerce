@@ -10,5 +10,9 @@
     </li>
     </ul>
     {% endfor %}
-
+    <div hidden>
+        {% block notifCount %}
+            {{ watchedItemsCounter }}
+        {% endblock %}
+    </div>
 {% endblock %}
